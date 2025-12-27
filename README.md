@@ -18,27 +18,29 @@ PoCアカウントでの開発においては、Snowsight上のdbt Projects on S
 Snowsight ワークシートを開き、以下を実行。
 ```
 USE ROLE ACCOUNTADMIN;
+create or replace database secret_database;
+create or replace schema secret_database.secret_schema;
 USE DATABASE SECRET_DATABASE;
 USE SCHEMA SECRET_SCHEMA;
 
-CREATE ROLE <任意のロール名>;
-GRANT USAGE ON DATABASE SECRET_DATABASE TO ROLE <任意のロール名>;
-GRANT USAGE ON SCHEMA SECRET_SCHEMA TO ROLE <任意のロール名>;
-GRANT CREATE SECRET ON SCHEMA SECRET_SCHEMA TO ROLE <任意のロール名>;
-GRANT CREATE INTEGRATION ON ACCOUNT TO ROLE <任意のロール名>;
-GRANT ROLE <任意のロール名> TO USER <自身のユーザ名>;
+CREATE ROLE role_frostyfriday;
+GRANT USAGE ON DATABASE SECRET_DATABASE TO ROLE role_frostyfriday;
+GRANT USAGE ON SCHEMA SECRET_SCHEMA TO ROLE role_frostyfriday;
+GRANT CREATE SECRET ON SCHEMA SECRET_SCHEMA TO ROLE role_frostyfriday;
+GRANT CREATE INTEGRATION ON ACCOUNT TO ROLE role_frostyfriday;
+GRANT ROLE role_frostyfriday TO USER hue;
 
-USE ROLE <任意のロール名>;
-CREATE OR REPLACE SECRET <任意のシークレット名>
+USE ROLE role_frostyfriday;
+CREATE OR REPLACE SECRET ff_secret
   TYPE = PASSWORD
-  USERNAME = "<自身のGitHubユーザ名>"
+  USERNAME = "hue-riptide"
   PASSWORD = "<1.で控えたPAT>"
 ;
 
-CREATE OR REPLACE API INTEGRATION <任意のAPI統合名>
+CREATE OR REPLACE API INTEGRATION ff_hue
   API_PROVIDER = git_https_api
-  API_ALLOWED_PREFIXES = ('https://github.com/Soba-Noodles/snowflake_dbt_projects.git')
-  ALLOWED_AUTHENTICATION_SECRETS = (<任意のシークレット名>)
+  API_ALLOWED_PREFIXES = ('https://github.com/hue-riptide/FrostyFriday.git')
+  ALLOWED_AUTHENTICATION_SECRETS = (ff_secret)
   ENABLED = TRUE
 ;
 ```
