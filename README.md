@@ -51,7 +51,7 @@ CREATE OR REPLACE API INTEGRATION ff_hue
 2. 左上のプロジェクト名を押下。
 3. Gitリポジトリからを押下。
 4. 以下の通り入力し、作成を押下。
-    - リポジトリURL：https://github.com/Soba-Noodles/snowflake_dbt_projects.git
+    - リポジトリURL：https://github.com/hue-riptide/FrostyFriday.git
     - API統合：<事前準備で作成したAPI統合名>
     - データベース：SECRET_DATABASE
     - スキーマ：SECRET_SCHEMA
